@@ -1,8 +1,5 @@
 package model;
 
-/**
- * Clinician POJO class representing a healthcare clinician
- */
 public class Clinician {
     private String clinicianId;
     private String firstName;
@@ -17,9 +14,6 @@ public class Clinician {
     private String employmentStatus;
     private String startDate;
 
-    /**
-     * Constructor with all fields
-     */
     public Clinician(String clinicianId, String firstName, String lastName, String title,
                      String speciality, String gmcNumber, String phoneNumber, String email,
                      String workplaceId, String workplaceType, String employmentStatus,
@@ -38,7 +32,6 @@ public class Clinician {
         this.startDate = startDate;
     }
 
-    // Getters
     public String getClinicianId() {
         return clinicianId;
     }
@@ -87,7 +80,6 @@ public class Clinician {
         return startDate;
     }
 
-    // Setters
     public void setClinicianId(String clinicianId) {
         this.clinicianId = clinicianId;
     }

@@ -1,8 +1,5 @@
 package model;
 
-/**
- * Staff POJO class representing a staff member
- */
 public class Staff {
     private String staffId;
     private String firstName;
@@ -17,9 +14,6 @@ public class Staff {
     private String lineManager;
     private String accessLevel;
 
-    /**
-     * Constructor with all fields
-     */
     public Staff(String staffId, String firstName, String lastName, String role,
                  String department, String facilityId, String phoneNumber, String email,
                  String employmentStatus, String startDate, String lineManager,
@@ -38,7 +32,6 @@ public class Staff {
         this.accessLevel = accessLevel;
     }
 
-    // Getters
     public String getStaffId() {
         return staffId;
     }
@@ -87,7 +80,6 @@ public class Staff {
         return accessLevel;
     }
 
-    // Setters
     public void setStaffId(String staffId) {
         this.staffId = staffId;
     }
