@@ -1,8 +1,5 @@
 package model;
 
-/**
- * Prescription POJO class representing a medical prescription
- */
 public class Prescription {
     private String prescriptionId;
     private String patientId;
@@ -20,9 +17,6 @@ public class Prescription {
     private String issueDate;
     private String collectionDate;
 
-    /**
-     * Constructor with all fields
-     */
     public Prescription(String prescriptionId, String patientId, String clinicianId,
                         String appointmentId, String prescriptionDate, String medicationName,
                         String dosage, String frequency, int durationDays, String quantity,
@@ -45,7 +39,6 @@ public class Prescription {
         this.collectionDate = collectionDate;
     }
 
-    // Getters
     public String getPrescriptionId() {
         return prescriptionId;
     }
@@ -106,7 +99,6 @@ public class Prescription {
         return collectionDate;
     }
 
-    // Setters
     public void setPrescriptionId(String prescriptionId) {
         this.prescriptionId = prescriptionId;
     }
