@@ -347,7 +347,7 @@ public class SystemController {
                 int idNum = Integer.parseInt(currentStaffMember.getStaffId().substring(1));
                 if (idNum > maxId) maxId = idNum;
             } catch (NumberFormatException numberFormatException) {
-                if (maxId < idNum )
+                // Skip malformed IDs - they won't affect the max calculation
             }
         }
         return String.format("S%03d", maxId + 1);
