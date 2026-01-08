@@ -48,16 +48,24 @@ public class PatientPanel extends JPanel {
         JButton addButton = new JButton("Add Patient");
         addButton.addActionListener(e -> addPatient());
         
+        JButton editButton = new JButton("Edit Patient");
+        editButton.addActionListener(e -> editPatient());
+        
+        JButton deleteButton = new JButton("Delete Patient");
+        deleteButton.addActionListener(e -> deletePatient());
+        
         JButton refreshButton = new JButton("Refresh");
         refreshButton.addActionListener(e -> refreshTable());
         
         buttonPanel.add(addButton);
+        buttonPanel.add(editButton);
+        buttonPanel.add(deleteButton);
         buttonPanel.add(refreshButton);
         
         add(buttonPanel, BorderLayout.SOUTH);
     }
     
-    private void refreshTable() {
+    public void refreshTable() {
         tableModel.setRowCount(0);
         
         List<Patient> patients = controller.getAllPatients();
@@ -83,5 +91,73 @@ public class PatientPanel extends JPanel {
         dialog.setVisible(true);
         
         refreshTable();
+    }
+    
+    private void editPatient() {
+        int selectedRow = table.getSelectedRow();
+        
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this,
+                "Please select a patient to edit.",
+                "No Selection",
+                JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
+        String patientId = (String) tableModel.getValueAt(selectedRow, 0);
+        Patient patient = controller.getPatientById(patientId);
+        
+        if (patient == null) {
+            JOptionPane.showMessageDialog(this,
+                "Patient not found!",
+                "Error",
+                JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        EditPatientDialog dialog = new EditPatientDialog(parentFrame, controller, patient, this);
+        dialog.setVisible(true);
+    }
+    
+    private void deletePatient() {
+        int selectedRow = table.getSelectedRow();
+        
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this,
+                "Please select a patient to delete.",
+                "No Selection",
+                JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
+        String patientId = (String) tableModel.getValueAt(selectedRow, 0);
+        String firstName = (String) tableModel.getValueAt(selectedRow, 1);
+        String lastName = (String) tableModel.getValueAt(selectedRow, 2);
+        
+        int confirm = JOptionPane.showConfirmDialog(this,
+            "Are you sure you want to delete patient:\n" +
+            patientId + " - " + firstName + " " + lastName + "?\n\n" +
+            "This action cannot be undone!",
+            "Confirm Delete",
+            JOptionPane.YES_NO_OPTION,
+            JOptionPane.WARNING_MESSAGE);
+        
+        if (confirm == JOptionPane.YES_OPTION) {
+            boolean success = controller.deletePatient(patientId);
+            
+            if (success) {
+                JOptionPane.showMessageDialog(this,
+                    "Patient deleted successfully!",
+                    "Success",
+                    JOptionPane.INFORMATION_MESSAGE);
+                refreshTable();
+            } else {
+                JOptionPane.showMessageDialog(this,
+                    "Failed to delete patient. Please check the console for errors.",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            }
+        }
     }
 }

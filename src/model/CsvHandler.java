@@ -116,4 +116,116 @@ public class CsvHandler {
         
         return sb.toString();
     }
+    
+    /**
+     * Updates a specific line in a CSV file by ID (assumes ID is in the first column)
+     */
+    public static boolean updateLineById(String fileName, String id, String newCsvLine) {
+        File file = null;
+        
+        try {
+            file = new File("resources/" + fileName);
+            if (!file.exists()) {
+                file = new File(fileName);
+            }
+            
+            if (!file.exists()) {
+                System.err.println("File not found: " + fileName);
+                return false;
+            }
+            
+            List<String> lines = new ArrayList<>();
+            BufferedReader reader = new BufferedReader(new FileReader(file));
+            String line;
+            boolean found = false;
+            
+            while ((line = reader.readLine()) != null) {
+                String[] fields = parseCsvLine(line);
+                if (fields.length > 0 && fields[0].equals(id)) {
+                    lines.add(newCsvLine);
+                    found = true;
+                } else {
+                    lines.add(line);
+                }
+            }
+            reader.close();
+            
+            if (found) {
+                FileWriter writer = new FileWriter(file, false);
+                for (String l : lines) {
+                    writer.write(l);
+                    if (!l.endsWith("\n")) {
+                        writer.write("\n");
+                    }
+                }
+                writer.close();
+                System.out.println("Successfully updated record with ID: " + id + " in " + fileName);
+                return true;
+            } else {
+                System.err.println("Record with ID " + id + " not found in " + fileName);
+                return false;
+            }
+            
+        } catch (IOException e) {
+            System.err.println("Error updating record in " + fileName);
+            e.printStackTrace();
+            return false;
+        }
+    }
+    
+    /**
+     * Deletes a specific line in a CSV file by ID (assumes ID is in the first column)
+     */
+    public static boolean deleteLineById(String fileName, String id) {
+        File file = null;
+        
+        try {
+            file = new File("resources/" + fileName);
+            if (!file.exists()) {
+                file = new File(fileName);
+            }
+            
+            if (!file.exists()) {
+                System.err.println("File not found: " + fileName);
+                return false;
+            }
+            
+            List<String> lines = new ArrayList<>();
+            BufferedReader reader = new BufferedReader(new FileReader(file));
+            String line;
+            boolean found = false;
+            
+            while ((line = reader.readLine()) != null) {
+                String[] fields = parseCsvLine(line);
+                if (fields.length > 0 && fields[0].equals(id)) {
+                    found = true;
+                    // Skip this line (don't add to list)
+                } else {
+                    lines.add(line);
+                }
+            }
+            reader.close();
+            
+            if (found) {
+                FileWriter writer = new FileWriter(file, false);
+                for (String l : lines) {
+                    writer.write(l);
+                    if (!l.endsWith("\n")) {
+                        writer.write("\n");
+                    }
+                }
+                writer.close();
+                System.out.println("Successfully deleted record with ID: " + id + " from " + fileName);
+                return true;
+            } else {
+                System.err.println("Record with ID " + id + " not found in " + fileName);
+                return false;
+            }
+            
+        } catch (IOException e) {
+            System.err.println("Error deleting record from " + fileName);
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

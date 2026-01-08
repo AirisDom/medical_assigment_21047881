@@ -19,11 +19,13 @@ public class MainFrame extends JFrame {
         JTabbedPane tabbedPane = new JTabbedPane();
         
         PatientPanel patientsPanel = new PatientPanel(controller);
+        ClinicianPanel cliniciansPanel = new ClinicianPanel(controller);
         AppointmentPanel appointmentsPanel = new AppointmentPanel(controller);
         ReferralsPanel referralsPanel = new ReferralsPanel(controller);
         PrescriptionPanel prescriptionsPanel = new PrescriptionPanel(controller);
         
         tabbedPane.addTab("Patients", patientsPanel);
+        tabbedPane.addTab("Clinicians", cliniciansPanel);
         tabbedPane.addTab("Appointments", appointmentsPanel);
         tabbedPane.addTab("Referrals", referralsPanel);
         tabbedPane.addTab("Prescriptions", prescriptionsPanel);
